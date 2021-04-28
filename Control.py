@@ -53,10 +53,10 @@ class Control:
         return self.Organizer.change_sys_variable('hash_length',num)
 
     def change_standart_folder(self,obj):
-        return self.Organizer.change_sys_variable('standart_folder',obj['params'])
+        return self.Organizer.change_sys_variable('standart_folder',obj['params']['content'])
 
     def change_standart_editor(self,obj):  
-        return self.Organizer.change_sys_variable('standart_editor',obj['params'])
+        return self.Organizer.change_sys_variable('standart_editor',obj['params']['content'])
 
     def change_replacement_policy(self,obj):
         content = obj['params']['content']

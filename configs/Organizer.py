@@ -174,13 +174,12 @@ class Organizer:
         folder = project['folder']
 
         editor = project['editor']
-
+        
         for var in self.variables.keys():
             folder = folder.replace('${' + var + '}', str(self.variables[var]))
             editor = editor.replace('${' + var + '}', str(self.variables[var]))
         
         os.system(f'cd {folder};{editor}')
-        print(f'cd {folder};{editor}')
         return self.messages['OPENING_PROJECT']
 
 
