@@ -1,1 +1,18 @@
-{"sys_definitions": {"standart_folder": "~/Desktop/Stuff/git", "standart_editor": "code .", "hash_length": 20, "duplicate_policy": "ignore"}, "user_definitions": {"pycharm": "pycharm .", "vim": "vim .", "sublime": "subl ."}, "projects": [{"hash": "j7XO6qdm84b3Ns057l87", "name": ["chessAI", "chess_AI"], "folder": "${standart_folder}/chess_AI", "editor": "${sublime}", "run": ""}]}
+{
+    "sys_definitions": {
+        "standart_folder": {
+            "content": ""
+        },
+        "standart_editor": {
+            "content": ""
+        },
+        "hash_length": 30,
+        "duplicate_policy": "ignore"
+    },
+    "user_definitions": {
+        
+    },
+    "projects": [
+        
+    ]
+}

@@ -43,16 +43,26 @@ class Control:
         return self.Organizer.define_variable(name,content)
 
     def change_hash_length(self,obj):
-        pass
+        try:
+            num = int(obj['params']['content'])
+        except ValueError:
+            raise Exception('With this function type must be Integer')
+        except:
+            raise Exception('Something went wrong...')
 
-    def change_stardart_folder(self,obj):
-        pass
+        return self.Organizer.change_sys_variable('hash_length',num)
 
-    def change_standart_editor(self,obj):
-        pass
+    def change_standart_folder(self,obj):
+        return self.Organizer.change_sys_variable('standart_folder',obj['params'])
+
+    def change_standart_editor(self,obj):  
+        return self.Organizer.change_sys_variable('standart_editor',obj['params'])
 
     def change_replacement_policy(self,obj):
-        pass
+        content = obj['params']['content']
+        if content not in ['replace','ignore']:
+            raise Exception('content must be either "replace" or "ignore".')
+        return self.Organizer.change_sys_variable('duplicate_policy',content)
 
     def open(self,obj):
         name = obj['params']['name'][0]

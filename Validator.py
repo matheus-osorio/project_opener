@@ -5,6 +5,8 @@ colors = bcolors()
 class Validator:
     def __init__(self, obj):
         obj = self.exclude_unimportant(obj)
+        self.valid_starters = list(   map(lambda x: x['starter'], functionalities.values())  )
+        self.valid_starters = list(  filter(lambda x: x in obj.keys() , self.valid_starters)   )
         if not self.count_Trues(obj):
             exit
         keys = obj.keys()
@@ -50,7 +52,7 @@ class Validator:
     
     def count_Trues(self,obj):
         count = 0
-        for tag in obj.keys():
+        for tag in self.valid_starters:
             if obj[tag] == True:
                 count += 1
         

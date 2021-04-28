@@ -41,7 +41,7 @@ class Organizer:
             'FILE_EDITED_SUCESSFULLY': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'The project has been edited successfully'),
             'DEFINED_VARIABLE': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'The variable has been added'),
             'SYSTEM_VARIABLE_NOT_DEFINED': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'System variables cannot be added, just edited.'),
-            'SYSTEM_VARIABLE_ADDED': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'The variable has been edited'),
+            'SYSTEM_VARIABLE_EDITED': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'The variable has been edited'),
             'NO_PROJECT_WITH_THIS_NAME': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'There is no project with this name.'),
             'OPENING_PROJECT': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'Project will be opened!')
         }

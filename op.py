@@ -38,7 +38,7 @@ parser.add_argument('-con','--content', required=False) #category arg
 #change system variables
 parser.add_argument('--change-hash-length',required=False,action='store_true')
 parser.add_argument('--change-standart-editor',required=False,action='store_true')
-parser.add_argument('--change-stardart-folder',required=False,action='store_true')
+parser.add_argument('--change-standart-folder',required=False,action='store_true')
 parser.add_argument('--change-replacement-policy',required=False,action='store_true')
 
 #open projects

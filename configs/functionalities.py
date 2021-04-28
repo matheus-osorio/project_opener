@@ -35,7 +35,11 @@ functionalities = {
         'required': ['content']
     },
     'change_stardart_folder':{
-        'starter': 'change_stardart_folder',
+        'starter': 'change_standart_folder',
+        'required': ['content']
+    },
+    'change_replacement_policy':{
+        'starter': 'change_replacement_policy',
         'required': ['content']
     },
     'open_project':{
