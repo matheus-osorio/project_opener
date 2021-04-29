@@ -5,11 +5,11 @@ colors = bcolors()
 class Validator:
     def __init__(self, obj):
         obj = self.exclude_unimportant(obj)
+        keys = obj.keys()
         self.valid_starters = list(   map(lambda x: x['starter'], functionalities.values())  )
-        self.valid_starters = list(  filter(lambda x: x in obj.keys() , self.valid_starters)   )
+        self.valid_starters = list(  filter(lambda x: x in keys , self.valid_starters)   )
         if not self.count_Trues(obj):
             exit
-        keys = obj.keys()
         combination = filter(lambda x: x['starter'] in keys,functionalities.values())
         combination = list(combination)
         if len(combination) < 1:

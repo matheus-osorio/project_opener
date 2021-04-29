@@ -2,12 +2,12 @@
 
 import json
 import argparse as ap
+import sys
 from Validator import Validator
 from Control import Control
 
 
-f = open('./configs/configs.json')
-configs = json.loads(f.read())
+path = sys.path[0]
 
 parser = ap.ArgumentParser(allow_abbrev=False)
 
@@ -16,7 +16,7 @@ parser.add_argument('-n','--new',required=False, action='store_true', help='Sets
 parser.add_argument('-na','--name',required=False, nargs='+') # name arg
 parser.add_argument('-f','--folder',type=str,required=False) # folder arg
 parser.add_argument('-ed','--editor',type=str,required=False) # editor arg
-parser.add_argument('--relative',required=False,action='store_true')
+parser.add_argument('--absolute',required=False,action='store_true')
 
 # args to edit 
 # edit uses basically the same patterns as new, so i'm not reddefinig the arguments
@@ -50,7 +50,7 @@ validator = Validator(args)
 
 control = Control()
 
-control.run(validator.get_params())
+control.run(validator.get_params(),path)
 
 
 

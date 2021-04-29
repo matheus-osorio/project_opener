@@ -3,9 +3,9 @@ from configs.Organizer import Organizer
 
 
 class Control:
-    def run(self,obj):
+    def run(self,obj,path):
         st = obj['starter']
-        self.Organizer = Organizer()
+        self.Organizer = Organizer(path)
         response = self[st](obj)
 
         txt = f''' 

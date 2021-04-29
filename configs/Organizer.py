@@ -8,23 +8,31 @@ colors = bcolors.bcolors()
 
 class Organizer:
     
-    def __init__(self):
-        f = open('./configs/configs.json')
+    def __init__(self,path):
+
+        #json related code
+        self.json_folder = path + '/configs/configs.json'
+        f = open(self.json_folder)
         self.configs = json.loads(f.read())
         
+        #sets some of the variables inside the json folder as class variables
         self.std_folder = self.configs['sys_definitions']['standart_folder']
         self.std_editor = self.configs['sys_definitions']['standart_editor']
         self.duplicate_policy = self.configs['sys_definitions']['duplicate_policy']
         self.hash_len = self.configs['sys_definitions']['hash_length']
         self.usr_definitions = self.configs['user_definitions']
+
+        #creates object with hash as key and project as content
         projects = self.configs['projects']
         self.projects = {proj['hash']: proj for proj in projects}
-        self.projects_names = {}
+
+        #starts the variables to be used later in replacement function
         self.variables = {}
         self.variables.update(self.configs['sys_definitions'])
         self.variables.update(self.configs['user_definitions'])
-
-
+        
+        #starts a variable with project name as key and project as content
+        self.projects_names = {}
         for proj in projects:
             for name in proj['name']:
                 if name in self.projects_names.keys():
@@ -34,6 +42,7 @@ class Organizer:
                 else:
                     self.projects_names[name] = proj
 
+        #creates messages for different types of results
         self.messages = {
             'NO_HASH_FOUND': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'The hash is not in the system. Please verify'),
             'ADDED_TO_PROJECT_LIST': self.make_return_message(f'{colors.OKBLUE}SUCESS{colors.ENDC}', 'The Project has been added to the list!'),
@@ -43,7 +52,8 @@ class Organizer:
             'SYSTEM_VARIABLE_NOT_DEFINED': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'System variables cannot be added, just edited.'),
             'SYSTEM_VARIABLE_EDITED': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'The variable has been edited'),
             'NO_PROJECT_WITH_THIS_NAME': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'There is no project with this name.'),
-            'OPENING_PROJECT': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'Project will be opened!')
+            'OPENING_PROJECT': self.make_return_message(f'{colors.OKGREEN}SUCCESS{colors.ENDC}', 'Project will be opened!'),
+            'NO_HASH_AVAILABLE': self.make_return_message(f'{colors.FAIL}ERROR{colors.ENDC}', 'In over 1000 tries the system could not find a unique hash. You probably set the hash values too short.')
         }
 
     def create_hash(self):
@@ -54,22 +64,27 @@ class Organizer:
         
         return hashText
     
-    def new_project(self,name,folder,editor=None,relative=True):
+    def new_project(self,name,folder,editor=None,absolute=False):
 
         
-        editor = '${standart_editor}' if editor == None else editor
+        editor = '${standart_editor}' if editor == None else editor 
         
-        if relative:
+        if not absolute:
             folder = '${standart_folder}' + folder
 
         existing_hashes = self.projects.keys()
 
+        count = 0
         while True:
             new_hash = self.create_hash()
             if new_hash not in existing_hashes:
                 break
+            else:
+                count+=1
+                if count > 1000:
+                    return self.messages['NO_HASH_AVAILABLE']
         
-
+        
         self.configs['projects'].append({
             'hash': new_hash,
             'name': name,
@@ -85,6 +100,11 @@ class Organizer:
         if not self.hash_exists(proj_hash):
             return self.messages['NO_HASH_FOUND']
 
+
+        if 'folder' in obj.keys():
+            if  'absolute' not in obj.keys():
+                obj['folder'] = '${standart_folder}' + obj['folder']
+    
         self.projects[proj_hash].update(obj)
 
         self.save_file()
@@ -166,7 +186,7 @@ class Organizer:
         smallest_name = list(self.projects_names.keys())[smallest_index]
         if smallest > 2:
             choice = input(f'Did you mean {smallest_name}? Type [Y/N]')
-            if choice != 'Y':
+            if choice.lower() != 'y':
                 return self.messages['NO_PROJECT_WITH_THIS_NAME']
         
         project = self.projects_names[smallest_name]
@@ -198,7 +218,7 @@ class Organizer:
         return msg
 
     def save_file(self):
-        f = open('./configs/configs.json','w')
+        f = open(self.json_folder,'w')
         try:
             parsed = json.dumps(self.configs)
         except SyntaxError:

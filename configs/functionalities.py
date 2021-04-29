@@ -7,12 +7,12 @@ functionalities = {
     'new_project': {
         'starter': 'new',
         'required': ['name','folder'],
-        'optionals': ['editor','relative']
+        'optionals': ['editor','absolute']
     },
     'edit_project':{
         'starter': 'edit',
         'required': ['hash'],
-        'at_least': ['name','folder','editor','relative']
+        'at_least': ['name','folder','editor','absolute']
     },
     'list_projects':{
         'starter': 'list',
