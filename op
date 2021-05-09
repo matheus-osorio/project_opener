@@ -13,9 +13,9 @@ parser = ap.ArgumentParser(allow_abbrev=False, description='op is a tool for ope
 
 # args to make a new config
 parser.add_argument('-n','--new',required=False, action='store_true', help='Sets mode to new. Use with -na(name), -f(folder)[OPTIONAL] and -ed(editor)[OPTIONAL]') # category arg
-parser.add_argument('-na','--name',required=False, nargs='+', help='Sets name to various things.') # name arg
-parser.add_argument('-f','--folder',type=str,required=False, help='Sets folder.') # folder arg
-parser.add_argument('-ed','--editor',type=str,required=False, help='Sets Editor') # editor arg
+parser.add_argument('-na','--name',required=False, nargs='+') # name arg
+parser.add_argument('-f','--folder',type=str,required=False) # folder arg
+parser.add_argument('-ed','--editor',type=str,required=False) # editor arg
 parser.add_argument('--absolute',required=False,action='store_true')
 parser.add_argument('-run','--run-command',required=False,nargs='+',dest='run')
 # args to edit 

@@ -36,8 +36,8 @@ class Organizer:
         for proj in projects:
             for name in proj['name']:
                 if name in self.projects_names.keys():
-                    raise Warning(f'Caution, Project name {name} was defined twice! The system is set to {self.hash_len}. To change refer to the -help section.')
-                    if self.hash_len == 'replace':
+                    print(f'WARNING: PROJECT NAME IS DEFINED TWICE. REPLACE POLICY IS SET TO {self.duplicate_policy}.')
+                    if self.duplicate_policy == 'replace':
                         self.projects_names[name] = proj
                 else:
                     self.projects_names[name] = proj
@@ -64,9 +64,9 @@ class Organizer:
         
         return hashText
     
-    def new_project(self,name,folder,editor=None,absolute=False):
+    def new_project(self,name,folder,editor=None,run=[] ,absolute=False):
 
-        
+        print('entrou ',run)
         editor = '${standart_editor}' if editor == None else editor 
         
         if not absolute:
@@ -85,11 +85,13 @@ class Organizer:
                     return self.messages['NO_HASH_AVAILABLE']
         
         
+        
         self.configs['projects'].append({
             'hash': new_hash,
             'name': name,
             'editor': editor,
-            'folder': folder
+            'folder': folder,
+            'run': run
         }) 
         
         self.save_file()
@@ -131,10 +133,11 @@ class Organizer:
 
         for proj in self.projects.values():
             line = f'''
-            hash: {colors.OKCYAN}{proj['hash']}{colors.ENDC}
-            name: {colors.HEADER} {proj['name']} {colors.ENDC}
-            folder: {colors.OKGREEN}{proj['folder']} {colors.ENDC}
-            editor: {colors.WARNING}{proj['editor']}{colors.ENDC}
+            hash:\t{colors.OKCYAN}{proj['hash']}{colors.ENDC}
+            name:\t{colors.HEADER}{proj['name']}{colors.ENDC}
+            folder:\t{colors.OKGREEN}{proj['folder']}{colors.ENDC}
+            editor:\t{colors.WARNING}{proj['editor']}{colors.ENDC}
+            run:\t{colors.OKBLUE}{proj['run']}{colors.ENDC}
             '''
 
             projects.append(line)
@@ -179,7 +182,7 @@ class Organizer:
         return self.messages['SYSTEM_VARIABLE_EDITED']
     
     def open_project(self,name):
-        difference = [Lev.distance(name,proj_name) for proj_name in self.projects_names.keys()]
+        difference = [Lev.distance(name.lower(),proj_name.lower()) for proj_name in self.projects_names.keys()]
 
         smallest = min(difference)
         smallest_index = difference.index(smallest)
@@ -194,12 +197,18 @@ class Organizer:
         folder = project['folder']
 
         editor = project['editor']
+
+        run = project['run']
         
         for var in self.variables.keys():
             folder = folder.replace('${' + var + '}', str(self.variables[var]))
             editor = editor.replace('${' + var + '}', str(self.variables[var]))
         
         os.system(f'cd {folder};{editor}')
+
+        for command in run:
+            os.system(f'cd {folder};{command}')
+
         return self.messages['OPENING_PROJECT']
 
 
